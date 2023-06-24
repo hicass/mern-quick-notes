@@ -1,7 +1,7 @@
-export default function NoteBox() {
+export default function NoteBox({ note }) {
     return (
         <>
-        <p>hello</p>
+        <li>{note.text}</li>
         </>
     )
 }

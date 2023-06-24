@@ -8,21 +8,20 @@ import './App.css';
 
 export default function App() {
   const [user, setUser] = useState(getUser());
-  const [notes, setNotes] = useState([
-    {},
-    {}
-  ]);
+  const [notes, setNotes] = useState([]);
   const blankNote = {
     text: '',
     user: user
   }
   const [newNote, setNewNote] = useState(blankNote);
 
-  // useEffect(function() {
-  //   async function getNotes() {
-  //     const notes = await notesAPI.getAll();
-  //   }
-  // })
+  useEffect(function() {
+    async function getNotes() {
+      const allNotes = await notesAPI.getAll();
+      setNotes(allNotes);
+    }
+    getNotes();
+  }, [newNote]);
 
   function handleChange(evt) {
     setNewNote({
@@ -41,13 +40,13 @@ export default function App() {
     <main className="App">
       { user ?
           <section>
-            <NavBar user={user} setUser={setUser} />
+            <NavBar user={user} setUser={setUser} setNotes={setNotes} />
 
             <div>
               {notes.length ?
                 <div>
                   {notes.map((note, idx) => (
-                    <NoteBox key={idx} />
+                    <NoteBox note={note} key={idx} />
                   ))}
                 </div>
               :
